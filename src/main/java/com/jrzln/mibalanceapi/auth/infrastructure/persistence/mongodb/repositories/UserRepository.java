@@ -2,7 +2,7 @@ package com.jrzln.mibalanceapi.auth.infrastructure.persistence.mongodb.repositor
 
 import com.jrzln.mibalanceapi.auth.domain.model.aggregates.User;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.Email;
-import com.jrzln.mibalanceapi.shared.infrastructure.persistence.mongodb.repositories.MongoRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

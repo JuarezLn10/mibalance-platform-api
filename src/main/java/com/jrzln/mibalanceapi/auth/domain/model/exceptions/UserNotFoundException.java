@@ -5,7 +5,7 @@ package com.jrzln.mibalanceapi.auth.domain.model.exceptions;
  */
 public class UserNotFoundException extends RuntimeException {
 
-    public UserNotFoundException(Throwable cause) {
-        super("User with the given identifier was not found:", cause);
+    public UserNotFoundException(String cause) {
+        super("User with the given identifier was not found: " + cause);
     }
 }

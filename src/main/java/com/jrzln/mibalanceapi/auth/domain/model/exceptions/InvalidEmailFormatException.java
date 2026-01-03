@@ -9,7 +9,7 @@ public class InvalidEmailFormatException extends RuntimeException {
         super("Invalid email format");
     }
 
-    public InvalidEmailFormatException(Throwable cause) {
-        super("Invalid email format:", cause);
+    public InvalidEmailFormatException(String message) {
+        super("Invalid email format: " + message);
     }
 }

@@ -5,7 +5,7 @@ package com.jrzln.mibalanceapi.auth.domain.model.exceptions;
  */
 public class UsernameAlreadyExistsException extends RuntimeException {
 
-    public UsernameAlreadyExistsException(Throwable cause) {
-        super("Username already exists:", cause);
+    public UsernameAlreadyExistsException(String cause) {
+        super("Username already exists: " + cause);
     }
 }

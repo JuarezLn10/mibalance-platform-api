@@ -17,10 +17,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * REST controller for user-related endpoints.
+ * UsersController
  *
- * @summary
- * Handles HTTP requests related to user retrieval.
+ * <p>
+ *     This controller is responsible for handling user-related requests.
+ *     It exposes two endpoints:
+ *     <ul>
+ *         <li>GET /api/v1/users/{user-id}</li>
+ *         <li>GET /api/v1/users (by its username)</li>
+ *     </ul>
+ * </p>
  *
  * @since 1.0.0
  */
@@ -31,6 +37,11 @@ public class UsersController {
 
     private final UserQueryService userQueryService;
 
+    /**
+     * Constructor for UsersController.
+     *
+     * @param userQueryService the user query service to handle user queries
+     */
     public UsersController(UserQueryService userQueryService) {
         this.userQueryService = userQueryService;
     }
@@ -74,7 +85,7 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "User retrieved successfully."),
             @ApiResponse(responseCode = "404", description = "User with the given username was not found."),
             @ApiResponse(responseCode = "401", description = "Unauthorized.")})
-    public ResponseEntity<UserResource> getUserByEmail(@ModelAttribute GetUserByUserNameResource resource) {
+    public ResponseEntity<UserResource> getUserByEmail(@RequestBody GetUserByUserNameResource resource) {
         var email = new Email(resource.username());
         var getUserByUserNameQuery = new GetUserByUserNameQuery(email);
         var user = userQueryService.handle(getUserByUserNameQuery);

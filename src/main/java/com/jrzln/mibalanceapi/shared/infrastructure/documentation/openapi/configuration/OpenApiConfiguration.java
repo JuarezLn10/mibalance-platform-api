@@ -13,17 +13,21 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class OpenApiConfiguration {
+
+    // Application name injected from configuration files
     @Value("${spring.application.name}")
     String applicationName;
 
+    // Application description injected from configuration files
     @Value("${documentation.application.description}")
     String applicationDescription;
 
+    // Application version injected from configuration files
     @Value("${documentation.application.version}")
     String applicationVersion;
 
     @Bean
-    public OpenAPI learningPlatformOpenApi() {
+    public OpenAPI miBalancePlatformOpenApi() {
         // General configuration for OpenAPI
         var openApi = new OpenAPI();
         openApi.info(new Info()

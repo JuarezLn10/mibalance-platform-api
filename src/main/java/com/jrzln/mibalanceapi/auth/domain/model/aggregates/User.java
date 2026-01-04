@@ -20,7 +20,7 @@ public class User extends AuditableDocument {
     @Valid
     @Field("username")
     @Indexed(unique = true)
-    private final Email username;
+    private Email username;
 
     // Password field with validation
     @Field("password")
@@ -28,10 +28,7 @@ public class User extends AuditableDocument {
     private String password;
 
     // Protected no-argument constructor for framework use
-    protected User() {
-        this.username = null;
-        this.password = null;
-    }
+    protected User() {}
 
     // Constructor to initialize User with username and password
     public User(Email username, String password) {

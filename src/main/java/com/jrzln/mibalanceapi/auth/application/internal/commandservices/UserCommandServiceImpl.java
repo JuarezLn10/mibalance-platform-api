@@ -45,16 +45,19 @@ public class UserCommandServiceImpl implements UserCommandService {
      */
     @Override
     public Optional<ImmutableTriple<User, String, String>> handle(SignInCommand command) {
-        var user = userRepository.findByUsername(command.username())
-                .orElseThrow(() -> new UserNotFoundException(command.username().email()));
+        var user = userRepository.findByUsername(command.username());
 
-        if (!hashingService.matches(command.password(), user.getPassword())) {
-            throw new InvalidPasswordException(user.getUsername().email());
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(command.username().toString());
         }
 
-        var token = tokenService.generateToken(user.getUsername().email());
+        if (!hashingService.matches(command.password(), user.get().getPassword())) {
+            throw new InvalidPasswordException(user.get().getUsername().email());
+        }
 
-        return Optional.of(ImmutableTriple.of(user, token, user.getId()));
+        var token = tokenService.generateToken(user.get().getUsername().email());
+
+        return Optional.of(ImmutableTriple.of(user.get(), token, user.get().getId()));
     }
 
     /**

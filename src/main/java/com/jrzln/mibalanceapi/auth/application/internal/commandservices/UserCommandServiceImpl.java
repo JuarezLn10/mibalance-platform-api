@@ -8,6 +8,7 @@ import com.jrzln.mibalanceapi.auth.domain.model.commands.SignUpCommand;
 import com.jrzln.mibalanceapi.auth.domain.model.exceptions.InvalidPasswordException;
 import com.jrzln.mibalanceapi.auth.domain.model.exceptions.UserNotFoundException;
 import com.jrzln.mibalanceapi.auth.domain.model.exceptions.UserSaveFailedException;
+import com.jrzln.mibalanceapi.auth.domain.model.exceptions.UsernameAlreadyExistsException;
 import com.jrzln.mibalanceapi.auth.domain.services.UserCommandService;
 import com.jrzln.mibalanceapi.auth.infrastructure.persistence.mongodb.repositories.UserRepository;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -64,8 +65,8 @@ public class UserCommandServiceImpl implements UserCommandService {
      */
     @Override
     public Optional<User> handle(SignUpCommand command) {
-        if (!userRepository.existsByUsername(command.username()))
-            throw new UserNotFoundException(command.username().email());
+        if (userRepository.existsByUsername(command.username()))
+            throw new UsernameAlreadyExistsException(command.username().email());
 
         var user = new User(command.username(), hashingService.encode(command.password()));
 

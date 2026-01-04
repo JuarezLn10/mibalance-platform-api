@@ -1,7 +1,7 @@
 package com.jrzln.mibalanceapi.shared.infrastructure.conversions.mongodb.configuration;
 
-import com.jrzln.mibalanceapi.auth.infrastructure.conversions.mongodb.readers.EmailReadConverter;
-import com.jrzln.mibalanceapi.auth.infrastructure.conversions.mongodb.writers.EmailWriteConverter;
+import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.readers.EmailReadConverter;
+import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.writers.EmailWriteConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;

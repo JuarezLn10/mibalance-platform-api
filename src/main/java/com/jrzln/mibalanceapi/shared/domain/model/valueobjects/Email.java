@@ -1,6 +1,6 @@
 package com.jrzln.mibalanceapi.shared.domain.model.valueobjects;
 
-import com.jrzln.mibalanceapi.auth.domain.model.exceptions.InvalidEmailFormatException;
+import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidEmailFormatException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

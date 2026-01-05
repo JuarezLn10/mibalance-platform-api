@@ -68,9 +68,9 @@ public class Wallet extends AuditableDocument {
      *
      * @param amount the amount to add
      *
-     * @see Balance#add(double)
+     * @see Balance#add(Double)
      */
-    public void addBalance(double amount) {
+    public void addBalance(Double amount) {
         this.balance = this.balance.add(amount);
     }
 
@@ -79,9 +79,9 @@ public class Wallet extends AuditableDocument {
      *
      * @param amount the amount to subtract
      *
-     * @see Balance#subtract(double)
+     * @see Balance#subtract(Double)
      */
-    public void subtractBalance(double amount) {
+    public void subtractBalance(Double amount) {
         this.balance = this.balance.subtract(amount);
     }
 }

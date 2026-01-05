@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
  */
 public record Balance(
         @NotNull(message = "Balance must not be null")
-        double balance
+        Double balance
 ) {
 
     // Constructor validation to ensure balance is non-negative
@@ -26,7 +26,7 @@ public record Balance(
      * @param amount the amount to add
      * @return a new Balance instance with the updated balance
      */
-    public Balance add(double amount) {
+    public Balance add(Double amount) {
         return new Balance(this.balance + amount);
     }
 
@@ -36,8 +36,8 @@ public record Balance(
      * @param amount the amount to subtract
      * @return a new Balance instance with the updated balance
      */
-    public Balance subtract(double amount) {
-        double newBalance = this.balance - amount;
+    public Balance subtract(Double amount) {
+        var newBalance = this.balance - amount;
         if (newBalance < 0) {
             throw new InvalidBalanceAmountException("Insufficient balance for subtraction: " + amount);
         }

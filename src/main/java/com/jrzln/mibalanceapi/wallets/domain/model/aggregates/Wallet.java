@@ -2,6 +2,7 @@ package com.jrzln.mibalanceapi.wallets.domain.model.aggregates;
 
 import com.jrzln.mibalanceapi.shared.domain.model.aggregates.AuditableDocument;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.UserId;
+import com.jrzln.mibalanceapi.wallets.domain.model.commands.RegisterWalletCommand;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.Balance;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.CurrencyCodes;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.WalletNames;
@@ -58,9 +59,34 @@ public class Wallet extends AuditableDocument {
         this.userId = userId;
     }
 
-    // Static factory method to create a new Wallet instance
+    /**
+     * Static factory method to create a new {@link Wallet} instance.
+     *
+     * @param name the name of the wallet
+     * @param type the type of the wallet
+     * @param initialBalance the initial balance of the wallet
+     * @param currency the currency code of the wallet
+     * @param userId the associated user ID
+     * @return a new Wallet instance
+     */
     public static Wallet create(WalletNames name, WalletTypes type, Balance initialBalance, CurrencyCodes currency, UserId userId) {
         return new Wallet(name, type, initialBalance, currency, userId);
+    }
+
+    /**
+     * Static factory method to create a new Wallet instance from a {@link RegisterWalletCommand}.
+     *
+     * @param command the command containing wallet registration details
+     * @return a new Wallet instance
+     */
+    public static Wallet create(RegisterWalletCommand command) {
+        return new Wallet(
+            command.name(),
+            command.type(),
+            command.balance(),
+            command.currency(),
+            command.userId()
+        );
     }
 
     /**

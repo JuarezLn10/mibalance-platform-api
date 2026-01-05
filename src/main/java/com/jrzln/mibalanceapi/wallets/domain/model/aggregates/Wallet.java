@@ -31,6 +31,11 @@ public class Wallet extends AuditableDocument {
     @Field("balance")
     private Balance balance;
 
+    // Initial balance when the wallet is registered as a value object
+    @Valid
+    @Field("initialBalance")
+    private Balance initialBalance;
+
     // Currency code for the wallet (e.g., USD, EUR)
     @Field("currency")
     private CurrencyCodes currency;
@@ -44,17 +49,18 @@ public class Wallet extends AuditableDocument {
     protected Wallet() {}
 
     // Constructor to initialize all fields
-    private Wallet(WalletNames name, WalletTypes type, Balance balance, CurrencyCodes currency, UserId userId) {
+    private Wallet(WalletNames name, WalletTypes type, Balance initialBalance, CurrencyCodes currency, UserId userId) {
         this.name = name;
         this.type = type;
-        this.balance = balance;
+        this.balance = initialBalance;
+        this.initialBalance = initialBalance; // Set initial balance to the starting balance
         this.currency = currency;
         this.userId = userId;
     }
 
     // Static factory method to create a new Wallet instance
-    public static Wallet create(WalletNames name, WalletTypes type, Balance balance, CurrencyCodes currency, UserId userId) {
-        return new Wallet(name, type, balance, currency, userId);
+    public static Wallet create(WalletNames name, WalletTypes type, Balance initialBalance, CurrencyCodes currency, UserId userId) {
+        return new Wallet(name, type, initialBalance, currency, userId);
     }
 
     /**

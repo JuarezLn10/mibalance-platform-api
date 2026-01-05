@@ -74,8 +74,8 @@ public class UsersController {
                                             summary = "An example of a successful response",
                                             value = """
                                                     {
-                                                        "userId": "131215df14",
-                                                        "username": "test@gmail.com"
+                                                        "userId": "6959b139b6c5058d7b5c2280",
+                                                        "username": "nicolas@gmail.com"
                                                     }
                                                     """,
                                             description = "The response will contain the user details."
@@ -133,8 +133,8 @@ public class UsersController {
                                             summary = "An example of a successful response",
                                             value = """
                                                     {
-                                                        "id": "131215df14",
-                                                        "username": "test@gmail.com"
+                                                        "id": "6959b139b6c5058d7b5c2280",
+                                                        "username": "nicolas@gmail.com"
                                                     }
                                                     """,
                                             description = "A successful response containing the user details."
@@ -164,7 +164,7 @@ public class UsersController {
                                             summary = "A valid username fetch example",
                                             value = """
                                                     {
-                                                        "username": "test@gmail.com"
+                                                        "username": "nicolas@gmail.com"
                                                     }
                                                     """,
                                             description = "The username (email) of an existing user in the system."
@@ -182,7 +182,7 @@ public class UsersController {
                             }
                     )
             )
-            @RequestBody GetUserByUserNameResource resource
+            @RequestParam GetUserByUserNameResource resource
     ) {
         var email = new Email(resource.username());
         var getUserByUserNameQuery = new GetUserByUserNameQuery(email);

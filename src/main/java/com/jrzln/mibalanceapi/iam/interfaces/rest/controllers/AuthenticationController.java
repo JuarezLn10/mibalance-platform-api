@@ -74,9 +74,9 @@ public class AuthenticationController {
                                     summary = "An example of a successful user sign in",
                                     value = """
                                             {
-                                                "username": "test@gmail.com",
+                                                "username": "nicolas@gmail.com",
                                                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-                                                "id": "23145535s12345"
+                                                "id": "6959b139b6c5058d7b5c2280"
                                             }
                                             """,
                                     description = "Response contains the username, the access token, and the user id."
@@ -101,8 +101,8 @@ public class AuthenticationController {
                                             summary = "A valid user sign in example",
                                             value = """
                                                     {
-                                                        "username": "test@gmail.com",
-                                                        "password": "P@ssw0rd!"
+                                                        "username": "nicolas@gmail.com",
+                                                        "password": "prueba123"
                                                     }
                                                     """,
                                             description = "A valid user registration example."

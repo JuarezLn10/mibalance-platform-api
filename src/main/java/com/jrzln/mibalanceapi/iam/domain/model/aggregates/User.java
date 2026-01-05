@@ -31,9 +31,29 @@ public class User extends AuditableDocument {
     protected User() {}
 
     // Constructor to initialize User with username and password
-    public User(Email username, String password) {
+    private User(Email username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    /**
+     * Static factory method to create a new User instance.
+     *
+     * @param username the user's email as username
+     * @param password the user's password
+     *
+     * @return a new User instance
+     */
+    public static User create(Email username, String password) {
+        if (username == null) {
+            throw new IllegalArgumentException("Username must not be null");
+        }
+
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("Password must not be null or blank");
+        }
+
+        return new User(username, password);
     }
 
     /**

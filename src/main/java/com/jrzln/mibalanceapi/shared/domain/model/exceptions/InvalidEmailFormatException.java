@@ -1,4 +1,4 @@
-package com.jrzln.mibalanceapi.iam.domain.model.exceptions;
+package com.jrzln.mibalanceapi.shared.domain.model.exceptions;
 
 /**
  * Exception thrown when an email format is invalid.

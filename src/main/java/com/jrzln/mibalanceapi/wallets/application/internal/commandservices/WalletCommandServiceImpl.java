@@ -40,9 +40,10 @@ public class WalletCommandServiceImpl implements WalletCommandService {
      */
     @Override
     public Optional<Wallet> handle(RegisterWalletCommand command) {
-        var wallet = Wallet.create(command);
+        Wallet wallet;
 
         try {
+            wallet = Wallet.create(command);
             walletRepository.save(wallet);
         } catch (DataAccessException ex) {
             LOGGER.error("Failed to register wallet for user with ID {}: {}", command.userId(), ex.getMessage());
@@ -60,9 +61,9 @@ public class WalletCommandServiceImpl implements WalletCommandService {
      */
     @Override
     public Optional<Wallet> handle(AddBalanceToWalletCommand command) {
-        verifyIfWalletExists(command.walletId());
-
         try {
+            verifyIfWalletExists(command.walletId());
+
             walletRepository.findById(command.walletId()).map(wallet -> {
                 wallet.addBalance(command.amountToAdd());
                 walletRepository.save(wallet);
@@ -84,9 +85,9 @@ public class WalletCommandServiceImpl implements WalletCommandService {
      */
     @Override
     public Optional<Wallet> handle(SubtrackBalanceFromWalletCommand command) {
-        verifyIfWalletExists(command.walletId());
-
         try {
+            verifyIfWalletExists(command.walletId());
+
             walletRepository.findById(command.walletId()).map(wallet -> {
                 wallet.subtractBalance(command.amountToSubtrack());
                 walletRepository.save(wallet);
@@ -108,9 +109,8 @@ public class WalletCommandServiceImpl implements WalletCommandService {
      */
     @Override
     public void handle(DeleteWalletCommand command) {
-        verifyIfWalletExists(command.walletId());
-
         try {
+            verifyIfWalletExists(command.walletId());
             walletRepository.deleteById(command.walletId());
         } catch (Exception ex) {
             LOGGER.error("Failed to delete wallet with ID {}: {}", command.walletId(), ex.getMessage());

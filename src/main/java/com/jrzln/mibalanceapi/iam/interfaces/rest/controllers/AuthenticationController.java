@@ -70,13 +70,16 @@ public class AuthenticationController {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = AuthenticatedUserResource.class),
                             examples = @ExampleObject(
+                                    name = "Successful user sign in",
+                                    summary = "An example of a successful user sign in",
                                     value = """
                                             {
                                                 "username": "test@gmail.com",
                                                 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
                                                 "id": "23145535s12345"
                                             }
-                                            """
+                                            """,
+                                    description = "Response contains the username, the access token, and the user id."
                             )
                     )
             ),
@@ -95,6 +98,7 @@ public class AuthenticationController {
                             examples = {
                                     @ExampleObject(
                                             name = "Good user sign in",
+                                            summary = "A valid user sign in example",
                                             value = """
                                                     {
                                                         "username": "test@gmail.com",
@@ -105,6 +109,7 @@ public class AuthenticationController {
                                     ),
                                     @ExampleObject(
                                             name = "Bad user sign in (user does not exist)",
+                                            summary = "A user sign in attempt with a non-existent user",
                                             value = """
                                                     {
                                                         "username": "badtest@gmail.com",
@@ -115,6 +120,7 @@ public class AuthenticationController {
                                     ),
                                     @ExampleObject(
                                             name = "Bad user sign in (wrong password)",
+                                            summary = "A user sign in attempt with an incorrect password",
                                             value = """
                                                     {
                                                         "username": "test@gmail.com",
@@ -160,12 +166,15 @@ public class AuthenticationController {
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = UserResource.class),
                             examples = @ExampleObject(
+                                    name = "Successful user sign up",
+                                    summary = "An example of a successful user registration",
                                     value = """
                                             {
                                                 "id": "23145535s12345",
                                                 "username": "test@gmail.com"
                                             }
-                                            """
+                                            """,
+                                    description = "Response contains the user id and the username of the registered user."
                             )
                     )
             ),
@@ -184,6 +193,7 @@ public class AuthenticationController {
                             examples = {
                                     @ExampleObject(
                                             name = "Good user registration",
+                                            summary = "A valid user registration example",
                                             value = """
                                                     {
                                                         "username": "test@gmail.com",
@@ -194,6 +204,7 @@ public class AuthenticationController {
                                     ),
                                     @ExampleObject(
                                             name = "Bad user registration",
+                                            summary = "An invalid user registration example",
                                             value = """
                                                     {
                                                         "username": "hello_world",

@@ -10,6 +10,9 @@ import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.requests.SignUpResou
 import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.responses.AuthenticatedUserResource;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.responses.UserResource;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,9 +63,72 @@ public class AuthenticationController {
     @PostMapping(value = "/sign-in")
     @Operation(summary = "Sign-in", description = "Sign-in with the provided credentials.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User authenticated successfully."),
-            @ApiResponse(responseCode = "404", description = "User not found.")})
-    public ResponseEntity<AuthenticatedUserResource> signIn(@RequestBody SignInResource resource) {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "User authenticated successfully.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = AuthenticatedUserResource.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                            {
+                                                "username": "test@gmail.com",
+                                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+                                                "id": "23145535s12345"
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User not found."
+            )
+    })
+    public ResponseEntity<AuthenticatedUserResource> signIn(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Credentials required to sign in a user.",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SignInResource.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "Good user sign in",
+                                            value = """
+                                                    {
+                                                        "username": "test@gmail.com",
+                                                        "password": "P@ssw0rd!"
+                                                    }
+                                                    """,
+                                            description = "A valid user registration example."
+                                    ),
+                                    @ExampleObject(
+                                            name = "Bad user sign in (user does not exist)",
+                                            value = """
+                                                    {
+                                                        "username": "badtest@gmail.com",
+                                                        "password": "123456"
+                                                    }
+                                                    """,
+                                            description = "The user with the provided username does not exist."
+                                    ),
+                                    @ExampleObject(
+                                            name = "Bad user sign in (wrong password)",
+                                            value = """
+                                                    {
+                                                        "username": "test@gmail.com",
+                                                        "password": "password"
+                                                    }
+                                                    """,
+                                            description = "The password provided is incorrect."
+                                    )
+                            }
+                    )
+            )
+            @RequestBody SignInResource resource
+    ) {
+
         var signInCommand = SignInCommandFromResourceAssembler.toCommandFromResource(resource);
         var authenticatedUser = userCommandService.handle(signInCommand);
         if (authenticatedUser.isEmpty()) {
@@ -87,9 +153,60 @@ public class AuthenticationController {
     @PostMapping(value = "/sign-up")
     @Operation(summary = "Sign-up", description = "Sign-up with the provided user information.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "User created successfully."),
-            @ApiResponse(responseCode = "400", description = "Bad request.")})
-    public ResponseEntity<UserResource> signUp(@RequestBody SignUpResource resource) {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "User created successfully.",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UserResource.class),
+                            examples = @ExampleObject(
+                                    value = """
+                                            {
+                                                "id": "23145535s12345",
+                                                "username": "test@gmail.com"
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request."
+            )
+    })
+    public ResponseEntity<UserResource> signUp(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Data required to register a new user.",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SignUpResource.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "Good user registration",
+                                            value = """
+                                                    {
+                                                        "username": "test@gmail.com",
+                                                        "password": "P@ssw0rd!"
+                                                    }
+                                                    """,
+                                            description = "A valid user registration example."
+                                    ),
+                                    @ExampleObject(
+                                            name = "Bad user registration",
+                                            value = """
+                                                    {
+                                                        "username": "hello_world",
+                                                        "password": "123456"
+                                                    }
+                                                    """,
+                                            description = "Username (email) has an invalid format and password does not meet security requirements."
+                                    )
+                            }
+                    )
+            )
+            @RequestBody SignUpResource resource
+    ) {
         var signUpCommand = SignUpCommandFromResourceAssembler.toCommandFromResource(resource);
         var user = userCommandService.handle(signUpCommand);
         if (user.isEmpty()) {

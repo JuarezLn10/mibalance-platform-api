@@ -16,15 +16,16 @@ public class RegisterWalletCommandFromResourceAssembler {
     /**
      * Converts a {@link RegisterWalletResource} to a {@link RegisterWalletCommand}.
      *
+     * @param targetUserId the ID of the user to whom the wallet will be registered
      * @param resource the RegisterWalletResource to convert
      * @return the corresponding RegisterWalletCommand
      */
-    public static RegisterWalletCommand toCommandFromResource(RegisterWalletResource resource) {
+    public static RegisterWalletCommand toCommandFromResource(String targetUserId, RegisterWalletResource resource) {
         var name = WalletNames.fromString(resource.name());
         var type = WalletTypes.fromString(resource.type());
         var currencyCode = CurrencyCodes.fromString(resource.currency());
         var initialBalance = new Balance(resource.initialBalance());
-        var userId = new UserId(resource.userId());
+        var userId = new UserId(targetUserId);
 
         return new RegisterWalletCommand(
                 name,

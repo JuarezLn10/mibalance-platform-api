@@ -2,6 +2,10 @@ package com.jrzln.mibalanceapi.shared.infrastructure.conversions.mongodb.configu
 
 import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.readers.EmailReadConverter;
 import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.writers.EmailWriteConverter;
+import com.jrzln.mibalanceapi.shared.infrastructure.conversions.mongodb.readers.UserIdReadConverter;
+import com.jrzln.mibalanceapi.shared.infrastructure.conversions.mongodb.writers.UserIdWriteConverter;
+import com.jrzln.mibalanceapi.wallets.infrastructure.conversions.mongodb.readers.BalanceReadConverter;
+import com.jrzln.mibalanceapi.wallets.infrastructure.conversions.mongodb.writers.BalanceWriteConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
@@ -18,7 +22,13 @@ public class MongoConversionConfiguration {
     public MongoCustomConversions mongoCustomConversions() {
         return new MongoCustomConversions(Arrays.asList(
                 new EmailWriteConverter(),
-                new EmailReadConverter()
+                new EmailReadConverter(),
+
+                new UserIdWriteConverter(),
+                new UserIdReadConverter(),
+
+                new BalanceWriteConverter(),
+                new BalanceReadConverter()
         ));
     }
 }

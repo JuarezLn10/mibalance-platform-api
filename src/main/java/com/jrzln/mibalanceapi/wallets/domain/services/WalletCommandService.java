@@ -43,5 +43,5 @@ public interface WalletCommandService {
      * @param command the command containing details for deleting the wallet
      * @return an Optional containing the deleted Wallet, or empty if the operation failed
      */
-    Optional<Wallet> handle(DeleteWalletCommand command);
+    void handle(DeleteWalletCommand command);
 }

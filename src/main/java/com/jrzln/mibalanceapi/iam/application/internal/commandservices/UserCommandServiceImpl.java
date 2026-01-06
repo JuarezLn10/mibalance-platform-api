@@ -9,6 +9,7 @@ import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidPasswordExcepti
 import com.jrzln.mibalanceapi.iam.domain.model.exceptions.UserNotFoundException;
 import com.jrzln.mibalanceapi.iam.domain.model.exceptions.UserSaveFailedException;
 import com.jrzln.mibalanceapi.iam.domain.model.exceptions.UsernameAlreadyExistsException;
+import com.jrzln.mibalanceapi.iam.domain.model.valueobjects.PasswordHash;
 import com.jrzln.mibalanceapi.iam.domain.services.UserCommandService;
 import com.jrzln.mibalanceapi.iam.infrastructure.persistence.mongodb.repositories.UserRepository;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -51,7 +52,7 @@ public class UserCommandServiceImpl implements UserCommandService {
             throw new UserNotFoundException(command.username().toString());
         }
 
-        if (!hashingService.matches(command.password(), user.get().getPasswordHash())) {
+        if (!hashingService.matches(command.password().value(), user.get().getPasswordHash().value())) {
             throw new InvalidPasswordException(user.get().getUsername().email());
         }
 
@@ -71,7 +72,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         if (userRepository.existsByUsername(command.username()))
             throw new UsernameAlreadyExistsException(command.username().email());
 
-        var user = User.create(command.username(), hashingService.encode(command.password()));
+        var user = User.create(command.username(), new PasswordHash(hashingService.encode(command.password().value())));
 
         try {
             userRepository.save(user);

@@ -1,5 +1,8 @@
 package com.jrzln.mibalanceapi.iam.domain.model.aggregates;
 
+import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidPasswordException;
+import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidPasswordHashException;
+import com.jrzln.mibalanceapi.iam.domain.model.valueobjects.PasswordHash;
 import com.jrzln.mibalanceapi.shared.domain.model.aggregates.AuditableDocument;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.Email;
 import jakarta.validation.Valid;
@@ -24,14 +27,13 @@ public class User extends AuditableDocument {
 
     // Password field with validation
     @Field("password")
-    @NotBlank(message = "Password must not be blank")
-    private String passwordHash;
+    private PasswordHash passwordHash;
 
     // Protected no-argument constructor for framework use
     protected User() {}
 
     // Constructor to initialize User with username and password
-    private User(Email username, String passwordHash) {
+    private User(Email username, PasswordHash passwordHash) {
         this.username = username;
         this.passwordHash = passwordHash;
     }
@@ -44,13 +46,13 @@ public class User extends AuditableDocument {
      *
      * @return a new User instance
      */
-    public static User create(Email username, String password) {
+    public static User create(Email username, PasswordHash password) {
         if (username == null) {
             throw new IllegalArgumentException("Username must not be null");
         }
 
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password must not be null or blank");
+        if (password == null) {
+            throw new InvalidPasswordHashException("Password must not be null or blank");
         }
 
         return new User(username, password);
@@ -58,9 +60,10 @@ public class User extends AuditableDocument {
 
     /**
      * Updates the user's password.
+     *
      * @param newPasswordHash the new password to set
      */
     public void updatePasswordHash(String newPasswordHash) {
-        this.passwordHash = newPasswordHash;
+        this.passwordHash.update(newPasswordHash) ;
     }
 }

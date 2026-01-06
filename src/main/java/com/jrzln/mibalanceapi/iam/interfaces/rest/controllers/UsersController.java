@@ -6,7 +6,6 @@ import com.jrzln.mibalanceapi.iam.domain.model.queries.GetUserByUserNameQuery;
 import com.jrzln.mibalanceapi.iam.domain.services.UserQueryService;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.assemblers.UserResourceFromEntityAssembler;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.requests.GetUserByUserNameResource;
-import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.requests.SignUpResource;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.responses.UserResource;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.Email;
 import io.swagger.v3.oas.annotations.Operation;

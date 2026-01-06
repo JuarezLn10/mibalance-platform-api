@@ -57,7 +57,7 @@ public class UserDetailsImpl implements UserDetails {
     public static UserDetailsImpl build(User user) {
         return new UserDetailsImpl(
                 user.getUsername().email(),
-                user.getPasswordHash(),
+                user.getPasswordHash().value(),
                 List.of());
     }
 }

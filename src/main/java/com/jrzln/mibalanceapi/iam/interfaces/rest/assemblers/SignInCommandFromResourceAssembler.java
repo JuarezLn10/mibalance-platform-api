@@ -1,6 +1,7 @@
 package com.jrzln.mibalanceapi.iam.interfaces.rest.assemblers;
 
 import com.jrzln.mibalanceapi.iam.domain.model.commands.SignInCommand;
+import com.jrzln.mibalanceapi.iam.domain.model.valueobjects.PasswordHash;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.resources.requests.SignInResource;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.Email;
 
@@ -17,10 +18,11 @@ public class SignInCommandFromResourceAssembler {
      */
     public static SignInCommand toCommandFromResource(SignInResource resource) {
         var username = new Email(resource.username());
+        var password = new PasswordHash(resource.password());
 
         return new SignInCommand(
                 username,
-                resource.password()
+                password
         );
     }
 }

@@ -25,15 +25,15 @@ public class User extends AuditableDocument {
     // Password field with validation
     @Field("password")
     @NotBlank(message = "Password must not be blank")
-    private String password;
+    private String passwordHash;
 
     // Protected no-argument constructor for framework use
     protected User() {}
 
     // Constructor to initialize User with username and password
-    private User(Email username, String password) {
+    private User(Email username, String passwordHash) {
         this.username = username;
-        this.password = password;
+        this.passwordHash = passwordHash;
     }
 
     /**
@@ -58,9 +58,9 @@ public class User extends AuditableDocument {
 
     /**
      * Updates the user's password.
-     * @param newPassword the new password to set
+     * @param newPasswordHash the new password to set
      */
-    public void updatePassword(String newPassword) {
-        this.password = newPassword;
+    public void updatePasswordHash(String newPasswordHash) {
+        this.passwordHash = newPasswordHash;
     }
 }

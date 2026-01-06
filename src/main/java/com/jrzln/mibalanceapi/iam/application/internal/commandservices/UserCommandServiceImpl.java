@@ -51,7 +51,7 @@ public class UserCommandServiceImpl implements UserCommandService {
             throw new UserNotFoundException(command.username().toString());
         }
 
-        if (!hashingService.matches(command.password(), user.get().getPassword())) {
+        if (!hashingService.matches(command.password(), user.get().getPasswordHash())) {
             throw new InvalidPasswordException(user.get().getUsername().email());
         }
 

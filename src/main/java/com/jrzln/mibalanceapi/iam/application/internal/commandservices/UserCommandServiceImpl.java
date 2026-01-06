@@ -76,7 +76,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         try {
             userRepository.save(user);
-        } catch (DataAccessException ex) {
+        } catch (Exception ex) {
             LOGGER.error("Error trying to save the user {}", command.username().email(), ex);
             throw new UserSaveFailedException(command.username().email(), ex);
         }

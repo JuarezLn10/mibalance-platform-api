@@ -69,10 +69,10 @@ public class WalletsController {
                                             summary = "A sample successful response",
                                             value = """
                                                     {
-                                                        "walletId": "3129923i31",
+                                                        "walletId": "695c501f4d228c6a2bf89b77",
                                                         "name": "YAPE",
                                                         "type": "SAVINGS",
-                                                        "balance": 1500.75,
+                                                        "balance": 100.5,
                                                         "currency": "PEN",
                                                         "registeredAt": "2023-10-05T14:48:00.000Z",
                                                         "userId": "6959b139b6c5058d7b5c2280"
@@ -138,7 +138,7 @@ public class WalletsController {
     public ResponseEntity<WalletResource> getWalletById(
             @Parameter(
                     description = "The ID of the wallet to retrieve",
-                    example = "3129923i31",
+                    example = "695c501f4d228c6a2bf89b77",
                     required = true
             )
             @PathVariable String walletId

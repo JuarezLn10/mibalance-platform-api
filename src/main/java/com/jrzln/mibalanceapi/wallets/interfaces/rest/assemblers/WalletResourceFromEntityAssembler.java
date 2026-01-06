@@ -20,6 +20,7 @@ public class WalletResourceFromEntityAssembler {
                 entity.getName().name(),
                 entity.getType().name(),
                 entity.getBalance().balance(),
+                entity.getInitialBalance().balance(),
                 entity.getCurrency().name(),
                 entity.getCreatedAt(),
                 entity.getUserId().userId()

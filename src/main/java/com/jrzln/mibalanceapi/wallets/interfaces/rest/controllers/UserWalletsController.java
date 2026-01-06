@@ -214,6 +214,7 @@ public class UserWalletsController {
                                                         "name": "YAPE",
                                                         "type": "SAVINGS",
                                                         "balance": 100.50,
+                                                        "initialBalance": 100.50,
                                                         "currency": "PEN",
                                                         "registeredAt": "2026-01-05T14:48:00.000Z",
                                                         "userId": "6959b139b6c5058d7b5c2280"

@@ -1,5 +1,8 @@
 package com.jrzln.mibalanceapi.iam.interfaces.rest.controllers;
 
+import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidPasswordException;
+import com.jrzln.mibalanceapi.iam.domain.model.exceptions.UserNotFoundException;
+import com.jrzln.mibalanceapi.iam.domain.model.exceptions.UsernameAlreadyExistsException;
 import com.jrzln.mibalanceapi.iam.domain.services.UserCommandService;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.assemblers.AuthenticatedUserResourceFromEntityAssembler;
 import com.jrzln.mibalanceapi.iam.interfaces.rest.assemblers.SignInCommandFromResourceAssembler;
@@ -136,18 +139,25 @@ public class AuthenticationController {
     ) {
 
         var signInCommand = SignInCommandFromResourceAssembler.toCommandFromResource(resource);
-        var authenticatedUser = userCommandService.handle(signInCommand);
-        if (authenticatedUser.isEmpty()) {
-            return ResponseEntity.notFound().build();
+
+        try {
+            var authenticatedUser = userCommandService.handle(signInCommand);
+            if (authenticatedUser.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            var authenticatedUserResource =
+                    AuthenticatedUserResourceFromEntityAssembler.toResourceFromEntity(
+                            authenticatedUser.get().getLeft(),
+                            authenticatedUser.get().getMiddle()
+                    );
+
+            return ResponseEntity.ok(authenticatedUserResource);
+        } catch (UserNotFoundException | InvalidPasswordException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().build();
         }
-
-        var authenticatedUserResource =
-                AuthenticatedUserResourceFromEntityAssembler.toResourceFromEntity(
-                        authenticatedUser.get().getLeft(),
-                        authenticatedUser.get().getMiddle()
-                );
-
-        return ResponseEntity.ok(authenticatedUserResource);
     }
 
     /**
@@ -218,13 +228,19 @@ public class AuthenticationController {
             )
             @RequestBody SignUpResource resource
     ) {
+
         var signUpCommand = SignUpCommandFromResourceAssembler.toCommandFromResource(resource);
-        var user = userCommandService.handle(signUpCommand);
-        if (user.isEmpty()) {
+
+        try {
+            var user = userCommandService.handle(signUpCommand);
+            if (user.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+            return new ResponseEntity<>(userResource, HttpStatus.CREATED);
+        } catch (UsernameAlreadyExistsException | IllegalArgumentException ex) {
             return ResponseEntity.badRequest().build();
         }
-
-        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
-        return new ResponseEntity<>(userResource, HttpStatus.CREATED);
     }
 }

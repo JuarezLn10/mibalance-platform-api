@@ -12,7 +12,7 @@ public class HashingServiceImpl implements BCryptHashingService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    HashingServiceImpl() {
+    public HashingServiceImpl() {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 

@@ -1,5 +1,6 @@
 package com.jrzln.mibalanceapi.wallets.application.internal.commandservices;
 
+import com.jrzln.mibalanceapi.wallets.application.acl.ExternalAuthenticationService;
 import com.jrzln.mibalanceapi.wallets.domain.model.aggregates.Wallet;
 import com.jrzln.mibalanceapi.wallets.domain.model.commands.AddBalanceToWalletCommand;
 import com.jrzln.mibalanceapi.wallets.domain.model.commands.DeleteWalletCommand;
@@ -27,9 +28,12 @@ public class WalletCommandServiceImpl implements WalletCommandService {
 
     private final WalletRepository walletRepository;
 
+    private final ExternalAuthenticationService authenticationService;
+
     // Constructor.
-    public WalletCommandServiceImpl(WalletRepository walletRepository) {
+    public WalletCommandServiceImpl(WalletRepository walletRepository, ExternalAuthenticationService authenticationService) {
         this.walletRepository = walletRepository;
+        this.authenticationService = authenticationService;
     }
 
     /**
@@ -40,6 +44,11 @@ public class WalletCommandServiceImpl implements WalletCommandService {
      */
     @Override
     public Optional<Wallet> handle(RegisterWalletCommand command) {
+
+        if (!authenticationService.verifyIfUserExists(command.userId().userId())) {
+            throw new WalletSaveFailedException("Cannot register wallet. User with ID " + command.userId().userId() + " does not exist.");
+        }
+
         Wallet wallet;
 
         try {

@@ -2,6 +2,7 @@ package com.jrzln.mibalanceapi.iam.domain.model.aggregates;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.jrzln.mibalanceapi.iam.domain.model.valueobjects.PasswordHash;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.Email;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class UserTest {
     void create_shouldCreateUser_whenPasswordHashIsValid() {
         var user = User.create(
                 new Email("test@email.com"),
-                "hashed-password"
+                new PasswordHash("hashed-password")
         );
 
         assertNotNull(user);
@@ -39,7 +40,7 @@ class UserTest {
                 IllegalArgumentException.class,
                 () -> User.create(
                         new Email("test@email.com"),
-                        "   "
+                        new PasswordHash("   ")
                 )
         );
 
@@ -53,7 +54,7 @@ class UserTest {
     void updatePassword_shouldReplacePasswordHash() {
         var user = User.create(
                 new Email("test@email.com"),
-                "old-hash"
+                new PasswordHash("old-hash")
         );
 
         user.updatePasswordHash("new-hash");

@@ -181,7 +181,7 @@ public class UsersController {
                             }
                     )
             )
-            @RequestParam GetUserByUserNameResource resource
+            @RequestBody GetUserByUserNameResource resource
     ) {
         var email = new Email(resource.username());
         var getUserByUserNameQuery = new GetUserByUserNameQuery(email);

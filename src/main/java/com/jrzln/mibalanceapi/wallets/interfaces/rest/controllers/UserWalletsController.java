@@ -89,6 +89,7 @@ public class UserWalletsController {
                                                                 "name": "YAPE",
                                                                 "type": "SAVINGS",
                                                                 "balance": 100.5,
+                                                                "initialBalance": 59.5,
                                                                 "currency": "PEN",
                                                                 "registeredAt": "2023-10-05T14:48:00.000Z",
                                                             },
@@ -97,6 +98,7 @@ public class UserWalletsController {
                                                                 "name": "BCP",
                                                                 "type": "CHECKING",
                                                                 "balance": 3200.00,
+                                                                "initialBalance": 2400.00,
                                                                 "currency": "USD",
                                                                 "registeredAt": "2023-11-15T10:30:00.000Z"
                                                             }

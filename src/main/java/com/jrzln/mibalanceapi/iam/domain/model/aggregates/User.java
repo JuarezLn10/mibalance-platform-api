@@ -1,12 +1,10 @@
 package com.jrzln.mibalanceapi.iam.domain.model.aggregates;
 
-import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidPasswordException;
 import com.jrzln.mibalanceapi.iam.domain.model.exceptions.InvalidPasswordHashException;
 import com.jrzln.mibalanceapi.iam.domain.model.valueobjects.PasswordHash;
 import com.jrzln.mibalanceapi.shared.domain.model.aggregates.AuditableDocument;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.Email;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;

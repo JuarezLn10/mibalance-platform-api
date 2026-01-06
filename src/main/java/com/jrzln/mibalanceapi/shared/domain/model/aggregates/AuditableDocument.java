@@ -1,6 +1,7 @@
 package com.jrzln.mibalanceapi.shared.domain.model.aggregates;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +13,7 @@ import java.time.Instant;
  * Base class for auditable documents in MongoDB.
  */
 @Getter
+@Setter
 public abstract class AuditableDocument {
 
     // The unique identifier for the document

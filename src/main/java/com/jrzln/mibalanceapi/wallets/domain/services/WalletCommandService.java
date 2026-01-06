@@ -42,5 +42,5 @@ public interface WalletCommandService {
      *
      * @param command the command containing details for deleting the wallet
      */
-    void handle(DeleteWalletCommand command);
+    Optional<String> handle(DeleteWalletCommand command);
 }

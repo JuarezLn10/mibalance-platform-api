@@ -6,6 +6,7 @@ import com.jrzln.mibalanceapi.wallets.domain.model.commands.AddBalanceToWalletCo
 import com.jrzln.mibalanceapi.wallets.domain.model.commands.DeleteWalletCommand;
 import com.jrzln.mibalanceapi.wallets.domain.model.commands.RegisterWalletCommand;
 import com.jrzln.mibalanceapi.wallets.domain.model.commands.SubtrackBalanceFromWalletCommand;
+import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.WalletDeletionFailedException;
 import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.WalletNotFoundException;
 import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.WalletSaveFailedException;
 import com.jrzln.mibalanceapi.wallets.domain.services.WalletCommandService;
@@ -117,13 +118,15 @@ public class WalletCommandServiceImpl implements WalletCommandService {
      * @param command the command containing details for deleting the wallet
      */
     @Override
-    public void handle(DeleteWalletCommand command) {
+    public Optional<String> handle(DeleteWalletCommand command) {
         try {
             verifyIfWalletExists(command.walletId());
+            var walletId = command.walletId();
             walletRepository.deleteById(command.walletId());
+            return Optional.of(walletId);
         } catch (Exception ex) {
             LOGGER.error("Failed to delete wallet with ID {}: {}", command.walletId(), ex.getMessage());
-            throw new WalletSaveFailedException("Failed to delete wallet with ID " + command.walletId());
+            throw new WalletDeletionFailedException("Failed to delete wallet with ID " + command.walletId());
         }
     }
 

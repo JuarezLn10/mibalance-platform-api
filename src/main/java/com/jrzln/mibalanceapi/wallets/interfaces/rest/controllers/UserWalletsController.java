@@ -2,6 +2,7 @@ package com.jrzln.mibalanceapi.wallets.interfaces.rest.controllers;
 
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.UserId;
 import com.jrzln.mibalanceapi.wallets.application.acl.ExternalAuthenticationService;
+import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.WalletSaveFailedException;
 import com.jrzln.mibalanceapi.wallets.domain.model.queries.GetAllWalletsByUserIdQuery;
 import com.jrzln.mibalanceapi.wallets.domain.services.WalletCommandService;
 import com.jrzln.mibalanceapi.wallets.domain.services.WalletQueryService;
@@ -158,7 +159,6 @@ public class UserWalletsController {
                     description = "unauthorized."
             )
     })
-
     public ResponseEntity<WalletDetailWrapperResource> getAllWalletsByUserId(
             @Parameter(
                     description = "The ID of the user whose wallets are to be retrieved.",
@@ -168,20 +168,24 @@ public class UserWalletsController {
             @PathVariable String userId
     ) {
 
-        if (isUserIdNotValid(userId) && doesUserNotExist(userId)) {
+        try {
+            if (isUserIdNotValid(userId) && doesUserNotExist(userId)) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            var targetUserId = new UserId(userId);
+            var getAllWalletsByUserIdQuery = new GetAllWalletsByUserIdQuery(targetUserId);
+            var wallets = walletQueryService.handle(getAllWalletsByUserIdQuery);
+
+            if (wallets.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            var walletDetailWrapper = WalletDetailWrapperResourceFromEntityAssembler.toResourceFromEntity(wallets);
+            return ResponseEntity.ok(walletDetailWrapper);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
-
-        var targetUserId = new UserId(userId);
-        var getAllWalletsByUserIdQuery = new GetAllWalletsByUserIdQuery(targetUserId);
-        var wallets = walletQueryService.handle(getAllWalletsByUserIdQuery);
-
-        if (wallets.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        var walletDetailWrapper = WalletDetailWrapperResourceFromEntityAssembler.toResourceFromEntity(wallets);
-        return ResponseEntity.ok(walletDetailWrapper);
     }
 
     /**
@@ -295,19 +299,23 @@ public class UserWalletsController {
             @RequestBody RegisterWalletResource resource
     ) {
 
-        if (isUserIdNotValid(userId) && doesUserNotExist(userId)) {
+        try {
+            if (isUserIdNotValid(userId) && doesUserNotExist(userId)) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            var registerWalletCommand = RegisterWalletCommandFromResourceAssembler.toCommandFromResource(userId, resource);
+            var wallet = walletCommandService.handle(registerWalletCommand);
+
+            if (wallet.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            var walletResource = WalletResourceFromEntityAssembler.toResourceFromEntity(wallet.get());
+            return new ResponseEntity<>(walletResource, HttpStatus.CREATED);
+        } catch (WalletSaveFailedException e) {
             return ResponseEntity.badRequest().build();
         }
-
-        var registerWalletCommand = RegisterWalletCommandFromResourceAssembler.toCommandFromResource(userId, resource);
-        var wallet = walletCommandService.handle(registerWalletCommand);
-
-        if (wallet.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        var walletResource = WalletResourceFromEntityAssembler.toResourceFromEntity(wallet.get());
-        return new ResponseEntity<>(walletResource, HttpStatus.CREATED);
     }
 
     /**

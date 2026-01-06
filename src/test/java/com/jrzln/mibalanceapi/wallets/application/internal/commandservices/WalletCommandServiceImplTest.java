@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import com.jrzln.mibalanceapi.shared.domain.model.valueobjects.UserId;
 import com.jrzln.mibalanceapi.wallets.application.acl.ExternalAuthenticationService;
 import com.jrzln.mibalanceapi.wallets.domain.model.commands.RegisterWalletCommand;
-import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.WalletSaveFailedException;
+import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.WalletDeletionFailedException;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.Balance;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.CurrencyCodes;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.WalletNames;
@@ -47,7 +47,7 @@ public class WalletCommandServiceImplTest {
         when(authenticationService.verifyIfUserExists(userId.userId())).thenReturn(false);
 
         // Act & Assert
-        assertThrows(WalletSaveFailedException.class,
+        assertThrows(WalletDeletionFailedException.class,
                 () -> walletCommandService.handle(command)
         );
 

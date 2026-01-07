@@ -55,7 +55,7 @@ public enum RegionNames {
         }
 
         return Arrays.stream(values())
-                .filter(e -> e.name().equalsIgnoreCase(value))
+                .filter(e -> e.name().equalsIgnoreCase(value.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() ->
                         new InvalidRegionException("Invalid region name: " + value));

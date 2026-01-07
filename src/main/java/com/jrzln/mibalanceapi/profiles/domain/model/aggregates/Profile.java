@@ -57,6 +57,10 @@ public class Profile extends AuditableDocument {
      * @return a new Profile instance
      */
     public static Profile create(String name, Integer age, String region, UserId userId) {
+        if (!isNameValid(name)) {
+            throw new InvalidProfileNameException("Profile name cannot be null or empty");
+        }
+
         if (!isAgeValid(age)) {
             throw new InvalidAgeException("Age must be a non-negative integer");
         }
@@ -94,7 +98,7 @@ public class Profile extends AuditableDocument {
      * @param name the name to validate
      * @return true if name is valid, false otherwise
      */
-    private boolean isNameValid(String name) {
+    private static boolean isNameValid(String name) {
         return name != null && !name.trim().isEmpty();
     }
 }

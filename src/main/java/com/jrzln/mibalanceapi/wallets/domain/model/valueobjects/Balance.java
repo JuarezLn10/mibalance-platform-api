@@ -27,6 +27,9 @@ public record Balance(
      * @return a new Balance instance with the updated balance
      */
     public Balance add(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidBalanceAmountException("Amount to add cannot be negative: " + amount);
+        }
         return new Balance(this.balance.add(amount));
     }
 
@@ -37,10 +40,9 @@ public record Balance(
      * @return a new Balance instance with the updated balance
      */
     public Balance subtract(BigDecimal amount) {
-        var newBalance = this.balance.subtract(amount);
-        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
+        if (balance.compareTo(amount) < 0) {
             throw new InvalidBalanceAmountException("Insufficient balance for subtraction: " + amount);
         }
-        return new Balance(newBalance);
+        return new Balance(balance.subtract(amount));
     }
 }

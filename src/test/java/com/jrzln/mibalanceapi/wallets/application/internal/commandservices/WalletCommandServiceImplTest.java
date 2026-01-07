@@ -15,6 +15,8 @@ import com.jrzln.mibalanceapi.wallets.infrastructure.persistence.mongodb.reposit
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 public class WalletCommandServiceImplTest {
 
     private WalletRepository walletRepository;
@@ -36,7 +38,7 @@ public class WalletCommandServiceImplTest {
         // Arrange
         var type = WalletTypes.SAVINGS;
         var name = WalletNames.BCP;
-        var initialBalance = new Balance(100.50);
+        var initialBalance = new Balance(new BigDecimal("100.50"));
         var currencyCode = CurrencyCodes.PEN;
 
         var userId = new UserId("user-123");

@@ -8,6 +8,8 @@ import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.WalletNames;
 import com.jrzln.mibalanceapi.wallets.domain.model.valueobjects.WalletTypes;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class WalletTest {
@@ -18,7 +20,7 @@ public class WalletTest {
         var wallet = Wallet.create(
                 WalletNames.BCP,
                 WalletTypes.SAVINGS,
-                new Balance(100.50),
+                new Balance(new BigDecimal("100.50")),
                 CurrencyCodes.PEN,
                 new UserId("user-123")
         );
@@ -34,7 +36,7 @@ public class WalletTest {
             Wallet.create(
                     null,
                     WalletTypes.SAVINGS,
-                    new Balance(100.50),
+                    new Balance(new BigDecimal("100.50")),
                     CurrencyCodes.PEN,
                     new UserId("user-123")
             );
@@ -50,7 +52,7 @@ public class WalletTest {
             Wallet.create(
                     WalletNames.BCP,
                     WalletTypes.SAVINGS,
-                    new Balance(-50.00),
+                    new Balance(new BigDecimal("-50.0")),
                     CurrencyCodes.PEN,
                     new UserId("user-123")
             );
@@ -66,7 +68,7 @@ public class WalletTest {
             Wallet.create(
                     WalletNames.BCP,
                     WalletTypes.SAVINGS,
-                    new Balance(100.50),
+                    new Balance(new BigDecimal("100.50")),
                     CurrencyCodes.PEN,
                     null
             );
@@ -82,7 +84,7 @@ public class WalletTest {
             Wallet.create(
                     WalletNames.BCP,
                     null,
-                    new Balance(100.50),
+                    new Balance(new BigDecimal("100.50")),
                     CurrencyCodes.PEN,
                     new UserId("user-123")
             );

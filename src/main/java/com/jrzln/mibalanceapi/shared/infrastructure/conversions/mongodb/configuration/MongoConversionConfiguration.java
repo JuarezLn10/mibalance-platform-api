@@ -4,6 +4,8 @@ import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.readers.Ema
 import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.readers.PasswordHashReadConverter;
 import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.writers.EmailWriteConverter;
 import com.jrzln.mibalanceapi.iam.infrastructure.conversions.mongodb.writers.PasswordHashWriteConverter;
+import com.jrzln.mibalanceapi.profiles.infrastructure.converters.mongodb.readers.RegionNamesWriteConverter;
+import com.jrzln.mibalanceapi.profiles.infrastructure.converters.mongodb.writers.RegionNamesReadConverter;
 import com.jrzln.mibalanceapi.shared.infrastructure.conversions.mongodb.readers.UserIdReadConverter;
 import com.jrzln.mibalanceapi.shared.infrastructure.conversions.mongodb.writers.UserIdWriteConverter;
 import com.jrzln.mibalanceapi.wallets.infrastructure.conversions.mongodb.readers.BalanceReadConverter;
@@ -33,7 +35,10 @@ public class MongoConversionConfiguration {
                 new BalanceReadConverter(),
 
                 new PasswordHashWriteConverter(),
-                new PasswordHashReadConverter()
+                new PasswordHashReadConverter(),
+
+                new RegionNamesWriteConverter(),
+                new RegionNamesReadConverter()
         ));
     }
 }

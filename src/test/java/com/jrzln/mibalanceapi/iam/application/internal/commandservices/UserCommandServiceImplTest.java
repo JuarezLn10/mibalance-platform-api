@@ -46,7 +46,11 @@ public class UserCommandServiceImplTest {
         var email = new Email("test@email.com");
         var password = new PasswordHash("rawPassword");
 
-        var command = new SignUpCommand(email, password);
+        var profileName = "Test User";
+        var profileAge = 30;
+        var profileRegion = "Lima";
+
+        var command = new SignUpCommand(email, password, profileName, profileAge, profileRegion);
 
         // Act
         when(userRepository.existsByUsername(email)).thenReturn(false);
@@ -67,7 +71,12 @@ public class UserCommandServiceImplTest {
         // Arrange
         var email = new Email("existing@email.com");
         var password = new PasswordHash("pass");
-        SignUpCommand command = new SignUpCommand(email, password);
+
+        var profileName = "Test User";
+        var profileAge = 30;
+        var profileRegion = "Lima";
+
+        SignUpCommand command = new SignUpCommand(email, password, profileName, profileAge, profileRegion);
 
         // Act
         when(userRepository.existsByUsername(email)).thenReturn(true);
@@ -87,7 +96,11 @@ public class UserCommandServiceImplTest {
         var email = new Email("fail@email.com");
         var password = new PasswordHash("pass");
 
-        SignUpCommand command = new SignUpCommand(email, password);
+        var profileName = "Test User";
+        var profileAge = 30;
+        var profileRegion = "Lima";
+
+        SignUpCommand command = new SignUpCommand(email, password, profileName, profileAge, profileRegion);
 
         // Act
         when(userRepository.existsByUsername(email)).thenReturn(false);

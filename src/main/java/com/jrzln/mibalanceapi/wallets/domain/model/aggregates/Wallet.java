@@ -12,6 +12,8 @@ import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.math.BigDecimal;
+
 /**
  * Aggregate root representing a Wallet entity.
  */
@@ -94,9 +96,9 @@ public class Wallet extends AuditableDocument {
      *
      * @param amount the amount to add
      *
-     * @see Balance#add(Double)
+     * @see Balance#add(BigDecimal)
      */
-    public void addBalance(Double amount) {
+    public void addBalance(BigDecimal amount) {
         this.balance = this.balance.add(amount);
     }
 
@@ -105,9 +107,9 @@ public class Wallet extends AuditableDocument {
      *
      * @param amount the amount to subtract
      *
-     * @see Balance#subtract(Double)
+     * @see Balance#subtract(BigDecimal)
      */
-    public void subtractBalance(Double amount) {
+    public void subtractBalance(BigDecimal amount) {
         this.balance = this.balance.subtract(amount);
     }
 }

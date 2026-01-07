@@ -1,5 +1,6 @@
 package com.jrzln.mibalanceapi.wallets.interfaces.rest.resources.responses;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
@@ -18,8 +19,8 @@ public record WalletDetailItemResource(
         String walletId,
         String name,
         String type,
-        Double balance,
-        Double initialBalance,
+        BigDecimal balance,
+        BigDecimal initialBalance,
         String currencyCode,
         Instant registeredAt
 ) {}

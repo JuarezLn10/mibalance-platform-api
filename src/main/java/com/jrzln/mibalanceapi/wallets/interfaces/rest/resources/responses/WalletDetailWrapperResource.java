@@ -11,4 +11,8 @@ import java.util.List;
  *
  * @see WalletDetailItemResource
  */
-public record WalletDetailWrapperResource(List<WalletDetailItemResource> wallets, Integer totalCount, String userId) {}
+public record WalletDetailWrapperResource(
+        List<WalletDetailItemResource> wallets,
+        Integer totalCount,
+        String userId
+) {}

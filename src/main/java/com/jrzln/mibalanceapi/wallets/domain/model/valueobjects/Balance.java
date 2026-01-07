@@ -1,7 +1,8 @@
 package com.jrzln.mibalanceapi.wallets.domain.model.valueobjects;
 
 import com.jrzln.mibalanceapi.wallets.domain.model.exceptions.InvalidBalanceAmountException;
-import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
 
 /**
  * Value object representing a wallet balance.
@@ -9,13 +10,12 @@ import jakarta.validation.constraints.NotNull;
  * @param balance the balance amount, must be non-negative
  */
 public record Balance(
-        @NotNull(message = "Balance must not be null")
-        Double balance
+        BigDecimal balance
 ) {
 
     // Constructor validation to ensure balance is non-negative
     public Balance {
-        if (balance < 0) {
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidBalanceAmountException("Balance cannot be negative: " + balance);
         }
     }
@@ -26,8 +26,8 @@ public record Balance(
      * @param amount the amount to add
      * @return a new Balance instance with the updated balance
      */
-    public Balance add(Double amount) {
-        return new Balance(this.balance + amount);
+    public Balance add(BigDecimal amount) {
+        return new Balance(this.balance.add(amount));
     }
 
     /**
@@ -36,9 +36,9 @@ public record Balance(
      * @param amount the amount to subtract
      * @return a new Balance instance with the updated balance
      */
-    public Balance subtract(Double amount) {
-        var newBalance = this.balance - amount;
-        if (newBalance < 0) {
+    public Balance subtract(BigDecimal amount) {
+        var newBalance = this.balance.subtract(amount);
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             throw new InvalidBalanceAmountException("Insufficient balance for subtraction: " + amount);
         }
         return new Balance(newBalance);

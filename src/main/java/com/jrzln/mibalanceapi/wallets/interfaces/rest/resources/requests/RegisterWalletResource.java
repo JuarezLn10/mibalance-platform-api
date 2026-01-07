@@ -1,5 +1,7 @@
 package com.jrzln.mibalanceapi.wallets.interfaces.rest.resources.requests;
 
+import java.math.BigDecimal;
+
 /**
  * Resource to register a new wallet.
  *
@@ -8,4 +10,4 @@ package com.jrzln.mibalanceapi.wallets.interfaces.rest.resources.requests;
  * @param initialBalance the initial balance
  * @param currency the currency code
  */
-public record RegisterWalletResource(String name, String type, Double initialBalance, String currency) {}
+public record RegisterWalletResource(String name, String type, BigDecimal initialBalance, String currency) {}

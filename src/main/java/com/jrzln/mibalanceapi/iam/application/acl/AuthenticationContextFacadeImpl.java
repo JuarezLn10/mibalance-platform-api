@@ -3,6 +3,8 @@ package com.jrzln.mibalanceapi.iam.application.acl;
 import com.jrzln.mibalanceapi.iam.domain.model.queries.GetUserByIdQuery;
 import com.jrzln.mibalanceapi.iam.domain.services.UserQueryService;
 import com.jrzln.mibalanceapi.iam.interfaces.acl.AuthenticationContextFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AuthenticationContextFacadeImpl implements AuthenticationContextFacade {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthenticationContextFacadeImpl.class);
 
     private final UserQueryService userQueryService;
 
@@ -31,9 +35,14 @@ public class AuthenticationContextFacadeImpl implements AuthenticationContextFac
      */
     @Override
     public boolean verifyIfUserExistsById(String userId) {
-        var getUserByIdQuery = new GetUserByIdQuery(userId);
-        var user = userQueryService.handle(getUserByIdQuery);
+        try {
+            var getUserByIdQuery = new GetUserByIdQuery(userId);
+            var user = userQueryService.handle(getUserByIdQuery);
 
-        return user.isPresent();
+            return user.isPresent();
+        } catch (RuntimeException e) {
+            LOGGER.error("Error verifying user existence for ID {}: {}", userId, e.getMessage());
+            throw new RuntimeException("Error verifying user existence for ID " + userId, e);
+        }
     }
 }

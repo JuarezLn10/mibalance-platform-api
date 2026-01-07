@@ -239,7 +239,7 @@ public class AuthenticationController {
 
             var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
             return new ResponseEntity<>(userResource, HttpStatus.CREATED);
-        } catch (UsernameAlreadyExistsException | IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().build();
         }
     }

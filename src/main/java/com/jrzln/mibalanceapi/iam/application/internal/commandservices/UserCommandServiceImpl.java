@@ -1,5 +1,6 @@
 package com.jrzln.mibalanceapi.iam.application.internal.commandservices;
 
+import com.jrzln.mibalanceapi.iam.application.acl.ExternalProfileManagementService;
 import com.jrzln.mibalanceapi.iam.application.internal.outboundservices.hashing.HashingService;
 import com.jrzln.mibalanceapi.iam.application.internal.outboundservices.tokens.TokenService;
 import com.jrzln.mibalanceapi.iam.domain.model.aggregates.User;
@@ -31,11 +32,13 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UserRepository userRepository;
     private final HashingService hashingService;
     private final TokenService tokenService;
+    private final ExternalProfileManagementService profileManagementService;
 
-    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService) {
+    public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, ExternalProfileManagementService profileManagementService) {
         this.userRepository = userRepository;
         this.hashingService = hashingService;
         this.tokenService = tokenService;
+        this.profileManagementService = profileManagementService;
     }
 
     /**
@@ -72,15 +75,27 @@ public class UserCommandServiceImpl implements UserCommandService {
         if (userRepository.existsByUsername(command.username()))
             throw new UsernameAlreadyExistsException(command.username().email());
 
-        var user = User.create(command.username(), new PasswordHash(hashingService.encode(command.password().value())));
-
         try {
+            var user = User.create(
+                    command.username(),
+                    new PasswordHash(hashingService.encode(command.password().value()))
+            );
             userRepository.save(user);
-        } catch (Exception ex) {
+
+            var profileId = profileManagementService.createProfile(
+                    command.profileName(),
+                    command.profileAge(),
+                    command.profileRegion(),
+                    user.getId()
+            );
+
+            LOGGER.info("Profile with id {} created for user {}", profileId, command.username().email());
+
+            return Optional.of(user);
+
+        } catch (RuntimeException ex) {
             LOGGER.error("Error trying to save the user {}", command.username().email(), ex);
             throw new UserSaveFailedException(command.username().email(), ex);
         }
-
-        return Optional.of(user);
     }
 }

@@ -3,6 +3,7 @@ package com.jrzln.mibalanceapi.iam.application.internal.commandservices;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.jrzln.mibalanceapi.iam.application.acl.ExternalProfileManagementService;
 import com.jrzln.mibalanceapi.iam.application.internal.outboundservices.hashing.HashingService;
 import com.jrzln.mibalanceapi.iam.application.internal.outboundservices.tokens.TokenService;
 import com.jrzln.mibalanceapi.iam.domain.model.aggregates.User;
@@ -33,8 +34,9 @@ public class UserCommandServiceImplTest {
         userRepository = mock(UserRepository.class);
         hashingService = mock(HashingService.class);
         tokenService = mock(TokenService.class);
+        var profileManagementService = mock(ExternalProfileManagementService.class);
 
-        userCommandService = new UserCommandServiceImpl(userRepository, hashingService, tokenService);
+        userCommandService = new UserCommandServiceImpl(userRepository, hashingService, tokenService, profileManagementService);
     }
 
     @Test

@@ -22,7 +22,10 @@ public class SignUpCommandFromResourceAssembler {
 
         return new SignUpCommand(
                 username,
-                password
+                password,
+                resource.name(),
+                resource.age(),
+                resource.region()
         );
     }
 }
